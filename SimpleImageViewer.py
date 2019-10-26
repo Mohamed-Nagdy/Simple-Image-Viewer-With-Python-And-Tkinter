@@ -12,7 +12,7 @@ from tkinter import *
 from PIL import Image, ImageTk
 
 # this counter is used for point to the image in the view
-counter = 0
+counter = 1
 
 # this to create the window
 root = Tk()
@@ -27,6 +27,7 @@ def next():
     global imageRead
     global image
     global container
+    global statusBar
 
     # this line to remove the image from the viewer to put the next image
     container.grid_forget()
@@ -49,11 +50,13 @@ def next():
         imageRead = Image.open(imagesList[counter])
         image = ImageTk.PhotoImage(imageRead.resize((500, 600), Image.ANTIALIAS))
         container = Label(root, image=image)
+        statusBar = Label(root, text="Image " + str(counter) + " Of " + str(len(imagesList)), anchor=E, relief=SUNKEN, bd=3)
 
     # put all the elements on the root container
     container.grid(column=0, row=0, columnspan=2)
     nextButton.grid(column=1, row=1)
     previousButton.grid(column=0, row=1)
+    statusBar.grid(column=0, row=2, columnspan=2, sticky=W + E)
 
 # this function for previous button to show the previous button on the viewer
 def previous():
@@ -66,6 +69,7 @@ def previous():
     global imageRead
     global image
     global container
+    global statusBar
 
     # this line to remove the image from the viewer to put the next image
     container.grid_forget()
@@ -87,17 +91,20 @@ def previous():
         imageRead = Image.open(imagesList[counter])
         image = ImageTk.PhotoImage(imageRead.resize((500, 600), Image.ANTIALIAS))
         container = Label(root, image=image)
+        statusBar = Label(root, text="Image " + str(counter) + " Of " + str(len(imagesList)), anchor=E, relief=SUNKEN, bd=3)
 
     # put all the elements on the root container
     container.grid(column=0, row=0, columnspan=2)
     nextButton.grid(column=1, row=1)
     previousButton.grid(column=0, row=1)
+    statusBar.grid(column=0, row=2, columnspan=2, sticky=W + E)
 
 
 # create the first show of our image viewer and the images list
 nextButton = Button(root, text='>>', width=30, bg='yellow', fg='red', command=next)
 previousButton = Button(root, text='<<', width=30, bg='yellow', fg='red', command=previous)
 imagesList = ['images/1.jpg', 'images/2.jpg', 'images/3.jpg', 'images/4.jpg', 'images/5.jpg', 'images/6.jpg', 'images/7.jpg']
+statusBar = Label(root, text="Image " + str(counter) + " Of " + str(len(imagesList)), anchor=E, relief=SUNKEN, bd=3)
 
 # read the fist image from the list and put it on the container
 imageRead = Image.open(imagesList[0])
@@ -108,6 +115,7 @@ container = Label(root, image=image)
 container.grid(column=0, row=0, columnspan=2)
 nextButton.grid(column=1, row=1)
 previousButton.grid(column=0, row=1)
+statusBar.grid(column=0, row=2, columnspan=2, sticky=W+E)
 
 # start the root main loop
 root.mainloop()
